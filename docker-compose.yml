@@ -1,0 +1,93 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: siop_user
+      POSTGRES_PASSWORD: siop_password
+      POSTGRES_DB: siop_system
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  mcp-hub:
+    build:
+      context: ./mcp-hub
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=siop_user
+      - DB_PASSWORD=siop_password
+      - DB_NAME=siop_system
+      - REDIS_HOST=redis
+    depends_on:
+      - db
+      - redis
+
+  sales-agent:
+    build: ./agents/universal-agent
+    environment:
+      - AGENT_NAME=sales-agent
+      - AGENT_TYPE=parent
+      - AGENT_PORT=3001
+      - REDIS_HOST=redis
+      - DB_HOST=db
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mcp-hub
+
+  demand-forecasting-agent:
+    build: ./agents/universal-agent
+    environment:
+      - AGENT_NAME=demand-forecasting-agent
+      - AGENT_TYPE=sub-agent
+      - AGENT_PORT=3002
+      - REDIS_HOST=redis
+      - DB_HOST=db
+    ports:
+      - "3002:3002"
+    depends_on:
+      - mcp-hub
+
+  inventory-agent:
+    build: ./agents/universal-agent
+    environment:
+      - AGENT_NAME=inventory-agent
+      - AGENT_TYPE=parent
+      - AGENT_PORT=3003
+      - REDIS_HOST=redis
+      - DB_HOST=db
+    ports:
+      - "3003:3003"
+    depends_on:
+      - mcp-hub
+
+  inventory-optimization-agent:
+    build: ./agents/universal-agent
+    environment:
+      - AGENT_NAME=inventory-optimization-agent
+      - AGENT_TYPE=sub-agent
+      - AGENT_PORT=3004
+      - REDIS_HOST=redis
+      - DB_HOST=db
+    ports:
+      - "3004:3004"
+    depends_on:
+      - mcp-hub
+
+  ui:
+    build: ./ui
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_HUB_URL=http://localhost:3000
+    depends_on:
+      - mcp-hub
