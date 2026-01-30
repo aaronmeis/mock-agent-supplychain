@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SC Orchestrate AI | S&OP Agent Orchestrator</title>
+    <title>S&OP Agent Orchestrator</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0a0b10;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --accent-blue: #00d2ff;
-            --accent-purple: #9d50bb;
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg-body: #0d1117;
+            --bg-sidebar: #161b22;
+            --bg-card: #21262d;
+            --border-color: #30363d;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-glow: rgba(88, 166, 255, 0.2);
+            --sidebar-width: 280px;
         }
 
         * {
@@ -25,320 +28,438 @@
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            line-height: 1.6;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            display: flex;
+            min-height: 100vh;
         }
 
-        h1, h2, h3 {
-            font-family: 'Outfit', sans-serif;
-        }
-
-        /* Hero Section */
-        .hero {
+        /* Sidebar */
+        aside {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
             height: 100vh;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-            background: radial-gradient(circle at center, rgba(0, 210, 255, 0.1) 0%, transparent 70%);
+            gap: 2rem;
+            z-index: 100;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('https://www.transparenttextures.com/patterns/carbon-fibre-v2.png');
-            opacity: 0.2;
-            pointer-events: none;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
+        .brand {
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: fadeInDown 1s ease-out;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .hero p {
-            font-size: clamp(1rem, 3vw, 1.25rem);
-            color: var(--text-muted);
-            max-width: 800px;
-            margin-bottom: 2.5rem;
-            animation: fadeInUp 1s ease-out 0.2s both;
-        }
-
-        .cta-buttons {
+        .nav-menu {
             display: flex;
-            gap: 1.5rem;
-            animation: fadeInUp 1s ease-out 0.4s both;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
-        /* Navigation Links (Doc Map) */
         .nav-link {
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
+            color: var(--text-secondary);
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .nav-link.primary {
-            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
-        }
-
-        .nav-link.secondary {
-            border: 1px solid var(--glass-border);
-            color: var(--text-main);
-            background: var(--card-bg);
-            backdrop-filter: blur(5px);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
         }
 
         .nav-link:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
+            color: var(--text-primary);
+            background-color: var(--bg-card);
         }
 
-        /* Section Styling */
-        .section {
-            padding: 8rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+        .nav-link.active {
+            color: var(--text-primary);
+            background-color: rgba(88, 166, 255, 0.1);
+            border-right: 3px solid var(--accent-blue);
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
+        /* Main Content */
+        main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 4rem;
+            max-width: 1400px;
         }
 
-        .section-header h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        section {
+            margin-bottom: 6rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
         }
 
-        .section-header p {
-            color: var(--text-muted);
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Card Grid */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::before {
+            content: '#';
+            color: var(--accent-blue);
+            opacity: 0.6;
+        }
+
+        .lead {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+        }
+
+        /* Walkthrough Video Card */
+        .video-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 40px var(--accent-glow);
+            transition: transform 0.3s ease;
+        }
+
+        .video-card video,
+        .video-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Grid Layouts */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 2rem;
         }
 
+        /* Gallery Cards */
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 2.5rem;
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-color: var(--accent-blue);
         }
 
-        .card h3 {
-            font-size: 1.5rem;
-            color: var(--accent-blue);
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* Visual Illustration Area */
-        .viz-container {
-            width: 100%;
-            height: 400px;
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            margin-top: 2rem;
-            position: relative;
+        .card-img {
+            height: 200px;
+            background-color: #000;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .viz-node {
-            width: 60px;
-            height: 60px;
-            background: var(--card-bg);
-            border: 2px solid var(--accent-blue);
-            border-radius: 50%;
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 0.8rem;
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
-            animation: pulse 2s infinite ease-in-out;
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
         }
 
-        .viz-hub {
-            width: 100px;
-            height: 100px;
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 30px rgba(157, 80, 187, 0.3);
+        .card:hover .card-img img {
+            opacity: 1;
         }
 
-        /* Animations */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .card-body {
+            padding: 1.5rem;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
-        }
-
-        /* Documentation Docs Section */
-        .docs-section {
-            background-color: rgba(255, 255, 255, 0.02);
-            border-top: 1px solid var(--glass-border);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .doc-list {
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .doc-item {
-            background: var(--card-bg);
-            padding: 1rem;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            border: 1px solid var(--glass-border);
-        }
-
-        .doc-item a {
-            color: var(--text-main);
-            text-decoration: none;
+        .card-desc {
             font-size: 0.9rem;
-            font-weight: 500;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
 
-        .doc-item:hover {
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(13, 17, 23, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            gap: 2rem;
+            background: var(--bg-body);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-img {
+            max-width: 70vw;
+            max-height: 85vh;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .modal-info {
+            width: 300px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            color: var(--text-primary);
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* Documentation Links */
+        .doc-link {
+            display: block;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .doc-link:hover {
             border-color: var(--accent-blue);
+            background-color: rgba(33, 38, 45, 0.8);
         }
 
-        footer {
-            padding: 4rem 2rem;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            border-top: 1px solid var(--glass-border);
-        }
-
-        .credits {
-            margin-top: 1rem;
+        .doc-link span {
             color: var(--accent-blue);
+            margin-right: 0.5rem;
+            font-family: monospace;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            body {
+                flex-direction: column;
+            }
+
+            aside {
+                width: 100%;
+                height: auto;
+                position: static;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            main {
+                margin-left: 0;
+                padding: 2rem;
+            }
+
+            .modal-content {
+                flex-direction: column;
+            }
+
+            .modal-img {
+                max-width: 100%;
+                max-height: 60vh;
+            }
+
+            .modal-info {
+                width: 100%;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <section class="hero">
-        <h1>S&OP Orchestrate AI</h1>
-        <p>A premium reference implementation for mocking and understanding the use of autonomous agents and the Model Context Protocol (MCP) in complex Supply Chain scenarios.</p>
-        <div class="cta-buttons">
-            <a href="README.md" class="nav-link primary">Explore Project Overview</a>
-            <a href="design/architecture.md" class="nav-link secondary">View Architecture</a>
-        </div>
+    <aside>
+        <div class="brand">S&OP AGENT ORCHESTRATOR</div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-link active">Overview</a>
+            <a href="#assets" class="nav-link">Visual Assets</a>
+            <a href="#docs" class="nav-link">Documentation</a>
+            <a href="https://github.com/aaronmeis/research-blitzy" class="nav-link" target="_blank">Reference Repo</a>
+        </nav>
+    </aside>
 
-        <!-- Dynamic Visualization Mockup -->
-        <div class="viz-container">
-            <div class="viz-node viz-hub">HUB</div>
-            <div class="viz-node" style="top: 20%; left: 20%;">SALES</div>
-            <div class="viz-node" style="top: 20%; right: 20%;">OPS</div>
-            <div class="viz-node" style="bottom: 20%; left: 30%;">INV</div>
-            <div class="viz-node" style="bottom: 20%; right: 30%;">PLAN</div>
-            
-            <!-- SVG Lines Simulation -->
-            <svg style="position: absolute; width: 100%; height: 100%; pointer-events: none;">
-                <line x1="50%" y1="50%" x2="25%" y2="28%" stroke="rgba(0, 210, 255, 0.2)" stroke-width="1" />
-                <line x1="50%" y1="50%" x2="75%" y2="28%" stroke="rgba(0, 210, 255, 0.2)" stroke-width="1" />
-                <line x1="50%" y1="50%" x2="35%" y2="72%" stroke="rgba(0, 210, 255, 0.2)" stroke-width="1" />
-                <line x1="50%" y1="50%" x2="65%" y2="72%" stroke="rgba(0, 210, 255, 0.2)" stroke-width="1" />
-            </svg>
-        </div>
-    </section>
+    <main>
+        <!-- Hero Section -->
+        <section id="overview">
+            <h1 class="section-title" style="font-size: 3rem; margin-bottom: 1rem;">S&OP Orchestrate AI</h1>
+            <p class="lead">
+                A premium reference implementation for mocking and understanding the use of autonomous agents and the
+                Model Context Protocol (MCP) in complex Supply Chain scenarios.
+            </p>
 
-    <section class="section">
-        <div class="section-header">
-            <h2>Key Components</h2>
-            <p>Built for modularity and explainability in the age of Agentic Workflows.</p>
-        </div>
-        <div class="grid">
-            <div class="card">
-                <h3>MCP Hub</h3>
-                <p>The central coordination layer. Manages agent registration, secure message routing, and broadcast events using Redis Pub/Sub.</p>
+            <div class="video-card">
+                <img src="assets/walkthrough.webp" alt="S&OP Agent Orchestrator Walkthrough">
             </div>
-            <div class="card">
-                <h3>Autonomous Agents</h3>
-                <p>Specialized functional units (Sales, Inventory, Operations) that collaborate through standardized MCP protocol messages.</p>
+        </section>
+
+        <!-- Visual Assets / Gallery -->
+        <section id="assets">
+            <h2 class="section-title">Visual Assets</h2>
+            <div class="grid">
+                <!-- Card 1 -->
+                <div class="card"
+                    onclick="openModal('assets/final_dashboard.png', 'Final Dashboard State', 'Full view of the dashboard after executing all S&OP scenarios.')">
+                    <div class="card-img">
+                        <img src="assets/final_dashboard.png" alt="Final Dashboard">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Final Dashboard State</h3>
+                        <p class="card-desc">Complete view of the dashboard.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card"
+                    onclick="openModal('assets/final_dashboard_zoomed.png', 'Zoomed Dashboard', '75% Zoomed out view to show full context of the application canvas.')">
+                    <div class="card-img">
+                        <img src="assets/final_dashboard_zoomed.png" alt="Zoomed Dashboard">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Zoomed Out View</h3>
+                        <p class="card-desc">75% Zoom showing full canvas.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card"
+                    onclick="openModal('assets/landing_page.png', 'Landing Page V1', 'Previous version of the landing page with embedded video.')">
+                    <div class="card-img">
+                        <img src="assets/landing_page.png" alt="Landing Page">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Landing Page V1</h3>
+                        <p class="card-desc">Historical view of the landing page.</p>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <h3>Visualization UI</h3>
-                <p>A real-time dashboard visualizing the "inner monologue" and interaction graphs as agents solve supply chain puzzles.</p>
+        </section>
+
+        <!-- Documentation -->
+        <section id="docs">
+            <h2 class="section-title">Documentation Map</h2>
+            <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+                <a href="design/requirements.md" class="doc-link"><span>01.</span>System Requirements</a>
+                <a href="design/architecture.md" class="doc-link"><span>02.</span>Architecture Overview</a>
+                <a href="design/database_design.md" class="doc-link"><span>03.</span>Database Design</a>
+                <a href="design/sdlc_process.md" class="doc-link"><span>04.</span>SDLC Process</a>
+                <a href="design/testing_strategy.md" class="doc-link"><span>05.</span>Testing Strategy</a>
+                <a href="mcp-hub/tests/README.md" class="doc-link"><span>06.</span>Integration Tests</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal -->
+    <div id="modal" class="modal" onclick="closeModal(event)">
+        <button class="close-modal">&times;</button>
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="modal-image" class="modal-img" src="" alt="">
+            <div class="modal-info">
+                <h3 id="modal-title" style="margin-bottom: 1rem; color: var(--accent-blue);"></h3>
+                <p id="modal-desc" style="color: var(--text-secondary); line-height: 1.6;"></p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section class="section docs-section">
-        <div class="section-header" style="margin-bottom: 3rem;">
-            <h2>Documentation Map</h2>
-            <p>Deep-dive into the technical implementation and SDLC.</p>
-        </div>
-        <div class="doc-list">
-            <div class="doc-item"><span>📘</span><a href="design/requirements.md">System Requirements</a></div>
-            <div class="doc-item"><span>🏗️</span><a href="design/architecture.md">Architecture Overview</a></div>
-            <div class="doc-item"><span>📊</span><a href="design/database_design.md">Database Design</a></div>
-            <div class="doc-item"><span>🚀</span><a href="design/sdlc_process.md">SDLC Process</a></div>
-            <div class="doc-item"><span>🧪</span><a href="design/testing_strategy.md">Testing Strategy</a></div>
-            <div class="doc-item"><span>🔧</span><a href="mcp-hub/tests/README.md">Integration Tests</a></div>
-        </div>
-    </section>
+    <script>
+        function openModal(imageSrc, title, desc) {
+            document.getElementById('modal-image').src = imageSrc;
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-desc').textContent = desc;
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-    <footer>
-        <p>&copy; 2026 S&OP Agent Orchestrator. Educational Reference Implementation.</p>
-        <div class="credits">Created in collaboration with <strong>Google DeepMind Antigravity</strong></div>
-    </footer>
+        function closeModal(event) {
+            if (event) event.preventDefault();
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
 
+        document.querySelector('.close-modal').addEventListener('click', closeModal);
+
+        // Highlight active nav link on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>
