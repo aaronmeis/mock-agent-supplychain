@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SC Orchestrate AI | S&OP Agent Orchestrator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0b10;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --accent-blue: #00d2ff;
+            --accent-purple: #9d50bb;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(0, 210, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre-v2.png');
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: var(--text-muted);
+            max-width: 800px;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        /* Navigation Links (Doc Map) */
+        .nav-link {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-link.primary {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+        }
+
+        .nav-link.secondary {
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            background: var(--card-bg);
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 8rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+        }
+
+        /* Card Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Visual Illustration Area */
+        .viz-container {
+            width: 100%;
+            height: 400px;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .viz-node {
+            width: 60px;
+            height: 60px;
+            background: var(--card-bg);
+            border: 2px solid var(--accent-blue);
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .viz-hub {
+            width: 100px;
+            height: 100px;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 30px rgba(157, 80, 187, 0.3);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        /* Documentation Docs Section */
+        .docs-section {
+            background-color: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .doc-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .doc-item {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .doc-item a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .doc-item:hover {
+            border-color: var(--accent-blue);
+        }
+
+        footer {
+            padding: 4rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .credits {
+            margin-top: 1rem;
+            color: var(--accent-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <h1>S&OP Orchestrate AI</h1>
+        <p>A premium reference implementation for mocking and understanding the use of autonomous agents and the Model Context Protocol (MCP) in complex Supply Chain scenarios.</p>
+        <div class="cta-buttons">
+            <a href="README.md" class="nav-link primary">Explore Project Overview</a>
+            <a href="design/architecture.md" class="nav-link secondary">View Architecture</a>
+        </div>
+
+        <!-- Dynamic Visualization Mockup -->
+        <div class="viz-container">
+            <div class="viz-node viz-hub">HUB</div>
+            <div class="viz-node" style="top: 20%; left: 20%;">SALES</div>
+            <div class="viz-node" style="top: 20%; right: 20%;">OPS</div>
+            <div class="viz-node" style="bottom: 20%; left: 30%;">INV</div>
+            <div class="viz-node" style="bottom: 20%; right: 30%;">PLAN</div>
+            
+            <!-- SVG Lines Simulation -->
+            <svg style="position: absolute; width: 100%; height: 100%; pointer-events: none;">
+                <line x1="50%" y1="50%" x2="25%" y2="28%" stroke="rgba(0, 210, 255, 0.2)" stroke-width="1" />
+                <line x1="50%" y1="50%" x2="75%" y2="28%" stroke="rgba(0, 210, 255, 0.2)" stroke-width="1" />
+                <line x1="50%" y1="50%" x2="35%" y2="72%" stroke="rgba(0, 210, 255, 0.2)" stroke-width="1" />
+                <line x1="50%" y1="50%" x2="65%" y2="72%" stroke="rgba(0, 210, 255, 0.2)" stroke-width="1" />
+            </svg>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-header">
+            <h2>Key Components</h2>
+            <p>Built for modularity and explainability in the age of Agentic Workflows.</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h3>MCP Hub</h3>
+                <p>The central coordination layer. Manages agent registration, secure message routing, and broadcast events using Redis Pub/Sub.</p>
+            </div>
+            <div class="card">
+                <h3>Autonomous Agents</h3>
+                <p>Specialized functional units (Sales, Inventory, Operations) that collaborate through standardized MCP protocol messages.</p>
+            </div>
+            <div class="card">
+                <h3>Visualization UI</h3>
+                <p>A real-time dashboard visualizing the "inner monologue" and interaction graphs as agents solve supply chain puzzles.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section docs-section">
+        <div class="section-header" style="margin-bottom: 3rem;">
+            <h2>Documentation Map</h2>
+            <p>Deep-dive into the technical implementation and SDLC.</p>
+        </div>
+        <div class="doc-list">
+            <div class="doc-item"><span>📘</span><a href="design/requirements.md">System Requirements</a></div>
+            <div class="doc-item"><span>🏗️</span><a href="design/architecture.md">Architecture Overview</a></div>
+            <div class="doc-item"><span>📊</span><a href="design/database_design.md">Database Design</a></div>
+            <div class="doc-item"><span>🚀</span><a href="design/sdlc_process.md">SDLC Process</a></div>
+            <div class="doc-item"><span>🧪</span><a href="design/testing_strategy.md">Testing Strategy</a></div>
+            <div class="doc-item"><span>🔧</span><a href="mcp-hub/tests/README.md">Integration Tests</a></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 S&OP Agent Orchestrator. Educational Reference Implementation.</p>
+        <div class="credits">Created in collaboration with <strong>Google DeepMind Antigravity</strong></div>
+    </footer>
+
+</body>
+</html>
