@@ -1,3 +1,5 @@
+[← Back to Project Overview](../README.md)
+
 # Database Design
 
 The S&OP Agent Orchestrator uses a PostgreSQL database to maintain the agent registry, message history, and core supply chain data.

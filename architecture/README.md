@@ -1,3 +1,5 @@
+[← Back to Project Overview](../README.md)
+
 # S&OP Multi-Agent System: Architecture for Developers
 
 This directory contains the architectural blueprints and design patterns used to build the **S&OP Multi-Agent Orchestration Platform**. This project serves as a reference implementation for developers building complex, collaborative AI systems using the **Model Context Protocol (MCP)** and **Antigravity**.

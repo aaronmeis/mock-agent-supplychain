@@ -1,3 +1,5 @@
+[← Back to Project Overview](README.md)
+
 # S&OP Multi-Agent System Architecture
 ## Enterprise Sales & Operations Planning Platform
 

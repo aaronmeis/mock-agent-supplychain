@@ -18,17 +18,22 @@ The system consists of the following components:
 - **Web UI**: A modern, glassmorphic dashboard for scenario execution and monitoring.
 - **Infrastructure**: PostgreSQL for persistence and Redis for messaging, all managed via Docker.
 
-## Getting Started
-For detailed setup instructions, architecture deep-dives, and SDLC documentation, please refer to the [design folder](file:///c:/Users/learn/projects/mock-agent-supplychain/design).
+## Documentation Map
 
-- [Architecture Overview](file:///c:/Users/learn/projects/mock-agent-supplychain/design/architecture.md)
-- [System Requirements](file:///c:/Users/learn/projects/mock-agent-supplychain/design/requirements.md)
-- [Database Design](file:///c:/Users/learn/projects/mock-agent-supplychain/design/database_design.md)
-- [Testing Strategy](file:///c:/Users/learn/projects/mock-agent-supplychain/design/testing_strategy.md)
-- [SDLC Process](file:///c:/Users/learn/projects/mock-agent-supplychain/design/sdlc_process.md)
+To help you navigate the system, here are links to all specialized documentation:
+
+- **[Project Overview (Root)](README.md)**: This document.
+- **[Requirements & Design](design/requirements.md)**: Detailed S&OP requirements and SDLC process.
+- **[System Architecture](design/architecture.md)**: High-level design and component interaction.
+- **[Database Schema](design/database_design.md)**: ER diagrams and table definitions.
+- **[Architecture Deep-Dive](architecture/README.md)**: Low-level implementation details of the agent hub.
+- **[MCP Hub Tests](mcp-hub/tests/README.md)**: How to run and interpret integration tests.
+- **[UI Documentation](ui/README.md)**: Frontend architecture and state management.
+- **[Legacy System Context](SIOP_MULTI_AGENT_SYSTEM_README.md)**: Original comprehensive documentation for the multi-agent system.
+
+## Getting Started
+For detailed setup instructions and deep-dives, please check the links above.
 
 ## Credits
 This project was developed in collaboration with **Antigravity**, a powerful agentic AI coding assistant from the **Google DeepMind** team.
 
-## License
-MIT

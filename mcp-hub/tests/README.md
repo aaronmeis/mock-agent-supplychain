@@ -1,3 +1,5 @@
+[← Back to Project Overview](../../README.md)
+
 # MCP Hub Integration Tests
 
 This directory contains integration tests for the MCP Hub server. These tests ensure that the Hub correctly handles agent registration, message routing, and health checks.
