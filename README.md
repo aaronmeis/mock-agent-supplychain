@@ -27,5 +27,8 @@ For detailed setup instructions, architecture deep-dives, and SDLC documentation
 - [Testing Strategy](file:///c:/Users/learn/projects/mock-agent-supplychain/design/testing_strategy.md)
 - [SDLC Process](file:///c:/Users/learn/projects/mock-agent-supplychain/design/sdlc_process.md)
 
+## Credits
+This project was developed in collaboration with **Antigravity**, a powerful agentic AI coding assistant from the **Google DeepMind** team.
+
 ## License
 MIT
